@@ -1,4 +1,4 @@
-#guia
+# Guia
 
 O caminho do meu projeto no lab da escola é:
 
