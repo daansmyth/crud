@@ -25,7 +25,7 @@ public class ProdutoController {
 		model.addAttribute("produto", new Produto());
 		return "produto";
 	}
-	
+//-------------------------------------------EDITAR PRODUTO---------------------------------------	
 	@GetMapping("/produto/{id}/edit")
 	public String editar(@PathVariable int id, Model model) {
 		
@@ -39,7 +39,7 @@ public class ProdutoController {
 		
 		return "produto";
 	}
-	
+//-------------------------------------------NOVO PRODUTO---------------------------------------
 	@PostMapping("/produto/novo")
 	public ModelAndView novo(Produto produto, RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/produto/list");
@@ -47,12 +47,10 @@ public class ProdutoController {
 		if (produto.getId() == 0) {
 			insert(produto);
 			redirectAttributes.addFlashAttribute("msg","Novo produto criado!");
-		} else{
+		} else {
 			update(produto);
 			redirectAttributes.addFlashAttribute("msg","Produto atualizado!");
 		}
-		
-		//modelAndView.addObject("novoProduto", produto);
 		return modelAndView;
 	}
 
@@ -60,7 +58,7 @@ public class ProdutoController {
 		produto.setId(proxId++);
 		lista.add(produto);
 	}
-
+//-------------------------------------------ATUALIZAR PRODUTO---------------------------------------
 	private void update(Produto produto) {
 		ListIterator<Produto> it = lista.listIterator();
 		while(it.hasNext()) {
@@ -71,22 +69,22 @@ public class ProdutoController {
 			}
 		}
 	}
-	
+//-------------------------------------------DELETAR PRODUTO---------------------------------------	
 	@GetMapping("/produto/{id}/delete")
-	private String delete(Produto produto) {
-		//Produto produto = buscarPorId(id);
+	private ModelAndView delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
+		ModelAndView view = new ModelAndView("redirect:/produto/list");
+
 		ListIterator<Produto> it = lista.listIterator();
 		while(it.hasNext()) {
 			Produto encontrado = it.next();
-			if (encontrado.getId() == produto.getId()) {
+			if (encontrado.getId() == id ) {
 				it.remove();
+				redirectAttributes.addFlashAttribute("msg","Produto deletado!");
 			}
 		}
-		return "produto/lista-produtos";
+		return view;
 	}
 	
-	
-
 	@GetMapping("/produto/list")
 	public String list(Model model) {
 		model.addAttribute("produtos", lista);
@@ -109,7 +107,6 @@ public class ProdutoController {
 		Produto encontrou = null;
 		for(Produto p : lista) {
 			if (p.getId() == id) {
-				//encontrou o produto solicitado
 				encontrou = p;
 				break;
 			}
