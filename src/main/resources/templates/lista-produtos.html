@@ -5,14 +5,22 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var msg = /*[[${msg}]]*/null;
+		if (msg != null){
+			alert(msg);
+		}
+	</script>
 		<h1>Novo Produto</h1>
 	
 		<table border="1">
 			<tr>
 				<th>ID</th>
 				<th>Nome</th>
-				<th></th>
-				<th></th>
+				<th>Detalhes</th>
+				<th>Editar</th>
+				<th>Deletar</th>
 			</tr>
 			<tr th:each="prod : ${produtos}">
 				<td>
@@ -26,6 +34,9 @@
 				</td>
 				<td>
 					<a th:href="@{/produto/{id}/edit (id=${prod.id}) }">Editar</a>
+				</td>
+				<td>
+					<a th:href="@{/produto/{id}/delete (id=${prod.id}) }">Deletar</a>
 				</td>
 			</tr>
 		</table>
